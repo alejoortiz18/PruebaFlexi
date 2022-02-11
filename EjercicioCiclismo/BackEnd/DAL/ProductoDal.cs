@@ -77,7 +77,6 @@ namespace Dal
             return productos;
         }
 
-
         public Tuple<bool, string> Insert(ProductoE producto)
         {
             //bool respuesta = false;
@@ -105,7 +104,41 @@ namespace Dal
             }
             catch (Exception ex)
             {
-                respuesta = new Tuple<bool, string>(false, $"{ex.Message}; Recuso {ex.Source}");
+                respuesta = new Tuple<bool, string>(false, $"{ex.Message}; \t Recurso {ex.Source}");
+            }
+
+            return respuesta;
+        }
+
+        public Tuple<bool, string> Update(ProductoE producto)
+        {
+            //bool respuesta = false;
+            Tuple<bool, string> respuesta = new Tuple<bool, string>(false, "");
+
+            try
+            {
+                using (var con = new SqlConnection(connect))
+                {
+                    con.Open();
+
+                    SqlCommand cmd = new SqlCommand("dbo.ActualizarProductoByProductoId", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@ProductoId", SqlDbType.Int).Value = producto.ProductoId;
+                    cmd.Parameters.AddWithValue("@DepartamentoVentaId", SqlDbType.Int).Value = producto.DepartamentoVentaId;
+                    cmd.Parameters.AddWithValue("@Nombre", SqlDbType.NVarChar).Value = producto.Nombre;
+                    cmd.Parameters.AddWithValue("@Precio", SqlDbType.Int).Value = producto.Precio;
+                    cmd.Parameters.AddWithValue("@Talla", SqlDbType.NVarChar).Value = producto.Talla;
+                    cmd.Parameters.AddWithValue("@Color", SqlDbType.NVarChar).Value = producto.Color;
+                    cmd.Parameters.AddWithValue("@CantidadStock", SqlDbType.Int).Value = producto.Cantidad;
+                    cmd.ExecuteNonQuery();
+                    respuesta = new Tuple<bool, string>(true, "Insert Ok");
+                    con.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                respuesta = new Tuple<bool, string>(false, $"Metodo: Update Producto \n {ex.Message}; \t Recurso {ex.Source}");
             }
 
             return respuesta;

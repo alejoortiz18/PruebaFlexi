@@ -29,5 +29,13 @@ namespace WebApi.Controllers
             Tuple<bool, string> result =  producto.Insert(prod);
             return result;
         }
+
+        [Route("Producto/Update")]
+        public Tuple<bool, string> Update(ProductoE prod)
+        {
+            Tuple<bool, string> result = producto.Update(prod);
+            return result;
+        }
+
     }
 }

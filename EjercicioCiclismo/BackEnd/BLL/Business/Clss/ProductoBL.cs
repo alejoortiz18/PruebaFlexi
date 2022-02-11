@@ -22,5 +22,10 @@ namespace Business.Clss
         {
            return productoDal.Insert(producto);
         }
+
+        public Tuple<bool, string> Update(ProductoE producto)
+        {
+            return productoDal.Update(producto);
+        }
     }
 }

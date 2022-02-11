@@ -27,5 +27,10 @@ namespace Business.Clss
         {
             return productoDal.Update(producto);
         }
+
+        public Tuple<bool, string> Delete(int productoId)
+        {
+            return productoDal.Delete(productoId);
+        }
     }
 }

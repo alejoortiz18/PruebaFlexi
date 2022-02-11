@@ -37,5 +37,12 @@ namespace WebApi.Controllers
             return result;
         }
 
+        [Route("Producto/Delete")]
+        public Tuple<bool, string> Delete(int productoid)
+        {
+            Tuple<bool, string> result = producto.Delete(productoid);
+            return result;
+        }
+
     }
 }

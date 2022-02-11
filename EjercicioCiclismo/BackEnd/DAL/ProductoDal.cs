@@ -143,5 +143,33 @@ namespace Dal
 
             return respuesta;
         }
+
+        public Tuple<bool, string> Delete(int productoId)
+        {
+            //bool respuesta = false;
+            Tuple<bool, string> respuesta = new Tuple<bool, string>(false, "");
+
+            try
+            {
+                using (var con = new SqlConnection(connect))
+                {
+                    con.Open();
+
+                    SqlCommand cmd = new SqlCommand("dbo.DeleteByProductoId", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@ProductoId", SqlDbType.Int).Value = productoId;
+                    cmd.ExecuteNonQuery();
+                    respuesta = new Tuple<bool, string>(true, "Insert Ok");
+                    con.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                respuesta = new Tuple<bool, string>(false, $"Metodo: Delete Producto; ProductoId: {productoId}; \n {ex.Message}; \t Recurso {ex.Source}");
+            }
+
+            return respuesta;
+        }
     }
 }

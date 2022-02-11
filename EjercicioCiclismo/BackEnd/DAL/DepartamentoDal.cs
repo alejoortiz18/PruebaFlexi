@@ -4,9 +4,6 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Dal
 {
@@ -38,7 +35,7 @@ namespace Dal
                             var departamento = new DepartamentoE
                             {
                                 DepartamentoVentaId = Convert.ToInt32(dr["DepartamentoVentaId"]),
-                                Nombre  = Convert.ToString(dr["Nombre"])
+                                Nombre = Convert.ToString(dr["Nombre"])
                             };
 
                             departamentos.Add(departamento);

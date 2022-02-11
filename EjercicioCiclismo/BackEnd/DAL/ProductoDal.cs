@@ -10,9 +10,7 @@ namespace Dal
 {
     public class ProductoDal
     {
-
         private string connect;
-
 
         public ProductoDal()
         {

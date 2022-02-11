@@ -9,34 +9,34 @@ namespace WebApi.Controllers
 {
     public class DepartamentoController : ApiController
     {
-        private ProductoBL producto = new ProductoBL();
+        private DepartamentoBL dep = new DepartamentoBL();
 
 
         [rto.Route("Departamento/GetList")]
-        public List<ProductoE> GetList()
+        public List<DepartamentoE> GetList()
         {
             // List<ProductoE> result = producto.GetList();
-            return producto.GetList();
+            return dep.GetList();
         }
 
         [rto.Route("Departamento/Insert")]
-        public Tuple<bool, string> Insert(ProductoE prod)
+        public Tuple<bool, string> Insert(string nombreDepartamento)
         {
-            Tuple<bool, string> result = producto.Insert(prod);
+            Tuple<bool, string> result = dep.Insert(nombreDepartamento);
             return result;
         }
 
         [rto.Route("Departamento/Update")]
-        public Tuple<bool, string> Update(ProductoE prod)
+        public Tuple<bool, string> Update(DepartamentoE departamento)
         {
-            Tuple<bool, string> result = producto.Update(prod);
+            Tuple<bool, string> result = dep.Update(departamento);
             return result;
         }
 
         [rto.Route("Departamento/Delete")]
-        public Tuple<bool, string> Delete(int productoid)
+        public Tuple<bool, string> Delete(int DepartamentoVentaId)
         {
-            Tuple<bool, string> result = producto.Delete(productoid);
+            Tuple<bool, string> result = dep.Delete(DepartamentoVentaId);
             return result;
         }
 

@@ -132,7 +132,7 @@ namespace Dal
                     cmd.Parameters.AddWithValue("@Color", SqlDbType.NVarChar).Value = producto.Color;
                     cmd.Parameters.AddWithValue("@CantidadStock", SqlDbType.Int).Value = producto.Cantidad;
                     cmd.ExecuteNonQuery();
-                    respuesta = new Tuple<bool, string>(true, "Insert Ok");
+                    respuesta = new Tuple<bool, string>(true, "Update Ok");
                     con.Close();
                 }
             }
@@ -160,7 +160,7 @@ namespace Dal
 
                     cmd.Parameters.AddWithValue("@ProductoId", SqlDbType.Int).Value = productoId;
                     cmd.ExecuteNonQuery();
-                    respuesta = new Tuple<bool, string>(true, "Insert Ok");
+                    respuesta = new Tuple<bool, string>(true, "Delete Ok");
                     con.Close();
                 }
             }

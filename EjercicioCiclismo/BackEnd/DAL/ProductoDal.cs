@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 
 
@@ -10,13 +11,21 @@ namespace Dal
     public class ProductoDal
     {
 
+        private string connect;
+
+
+        public ProductoDal()
+        {
+            connect = ConfigurationManager.ConnectionStrings["PedaleaEntities"].ToString();
+        }
+
         public List<ProductoE> GetList()
         {
             List<ProductoE> productos = new List<ProductoE>();
 
             try
             {
-                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["PedaleaEntities"].ToString()))
+                using (var con = new SqlConnection(connect))
                 {
                     con.Open();
 
@@ -37,7 +46,7 @@ namespace Dal
                                 Cantidad = Convert.ToInt32(dr["CantidadStock"])
                             };
 
-                        // Agregamos el usuario a la lista genreica
+                            // Agregamos el usuario a la lista genreica
                             productos.Add(Producto);
                         }
                     }
@@ -69,47 +78,37 @@ namespace Dal
         }
 
 
-
-
-        public ProductoE GetListProducto()
+        public Tuple<bool, string> Insert(ProductoE producto)
         {
-            List<ProductoE> listProducto = new List<ProductoE>();
-            ProductoE Producto = new ProductoE();
+            //bool respuesta = false;
+            Tuple<bool, string> respuesta = new Tuple<bool, string>(false,"");
 
             try
             {
-                string connect = ConfigurationManager.ConnectionStrings["PedaleaEntities"].ToString();
-
                 using (var con = new SqlConnection(connect))
                 {
                     con.Open();
 
-                    var query = new SqlCommand("select * from Producto",con);
+                    SqlCommand cmd = new SqlCommand("dbo.InsertarProducto", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
 
-                    using (var dr = query.ExecuteReader())
-                    {
-                        dr.Read();
-                        if (dr.HasRows)
-                        {
-                            Producto.ProductoId = Convert.ToInt32( dr["ProductoId"]);
-                            Producto.DepartamentoVentaId = Convert.ToInt32( dr["DepartamentoVentaId"]);
-                            Producto.Nombre = dr["Nombre"].ToString();
-                            Producto.Precio = Convert.ToInt32( dr["Precio"]);
-                            Producto.Talla = dr["Talla"].ToString();
-                            Producto.Color = dr["Color"].ToString();
-                            Producto.Cantidad = Convert.ToInt32( dr["CantidadStock"]);
-                            //listProducto.Add(Producto);
-                        }
-                    }
-
+                    cmd.Parameters.AddWithValue("@DepartamentoVentaId", SqlDbType.Int).Value = producto.DepartamentoVentaId;
+                    cmd.Parameters.AddWithValue("@Nombre", SqlDbType.NVarChar).Value = producto.Nombre;
+                    cmd.Parameters.AddWithValue("@Precio", SqlDbType.Int).Value = producto.Precio;
+                    cmd.Parameters.AddWithValue("@Talla", SqlDbType.NVarChar).Value = producto.Talla;
+                    cmd.Parameters.AddWithValue("@Color", SqlDbType.NVarChar).Value = producto.Color;
+                    cmd.Parameters.AddWithValue("@Cantidad", SqlDbType.Int).Value = producto.Cantidad;
+                    cmd.ExecuteNonQuery();
+                    respuesta = new Tuple<bool, string>(true,"Insert Ok");
+                    con.Close();
                 }
             }
             catch (Exception ex)
             {
-
-                
+                respuesta = new Tuple<bool, string>(false, $"{ex.Message}; Recuso {ex.Source}");
             }
-            return Producto;
+
+            return respuesta;
         }
     }
 }

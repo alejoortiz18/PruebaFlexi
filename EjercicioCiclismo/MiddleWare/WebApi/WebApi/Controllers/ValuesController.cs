@@ -22,5 +22,12 @@ namespace WebApi.Controllers
            // List<ProductoE> result = producto.GetList();
             return producto.GetList();
         }
+
+        [Route("Producto/Insert")]
+        public Tuple<bool, string> Insert(ProductoE prod)
+        {
+            Tuple<bool, string> result =  producto.Insert(prod);
+            return result;
+        }
     }
 }

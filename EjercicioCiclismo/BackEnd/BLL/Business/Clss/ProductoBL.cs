@@ -18,5 +18,9 @@ namespace Business.Clss
             return productoDal.GetList();
         }
 
+        public Tuple<bool, string> Insert(ProductoE producto)
+        {
+           return productoDal.Insert(producto);
+        }
     }
 }

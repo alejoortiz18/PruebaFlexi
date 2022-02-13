@@ -34,7 +34,6 @@ namespace Dal
                     {
                         while (dr.Read())
                         {
-                            // Usuario
                             var Producto = new UsuarioE
                             {
                                 ClienteId = Convert.ToInt32(dr["ClienteId"]),
@@ -45,27 +44,10 @@ namespace Dal
                                 Direccion = Convert.ToString(dr["Direccion"])
                             };
 
-                            // Agregamos el usuario a la lista genreica
                             productos.Add(Producto);
                         }
                     }
 
-                    // Agregamos el ROL
-                    //foreach (var u in productos)
-                    //{
-                    //    query = new SqlCommand("SELECT * FROM rol WHERE id = @id", con);
-                    //    query.Parameters.AddWithValue("@id", u.Rol_id);
-
-                    //    using (var dr = query.ExecuteReader())
-                    //    {
-                    //        dr.Read();
-                    //        if (dr.HasRows)
-                    //        {
-                    //            u.Rol.id = Convert.ToInt32(dr["id"]);
-                    //            u.Rol.Nombre = dr["Nombre"].ToString();
-                    //        }
-                    //    }
-                    //}
                 }
             }
             catch (Exception ex)
